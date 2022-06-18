@@ -1,0 +1,9 @@
+{
+  "name": "punk-beer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "tsyringe": "^4.7.0"
+  }
+}
