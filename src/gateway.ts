@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 interface Response {
     id: number;
@@ -130,15 +130,23 @@ class BeerDtoFactory {
 }
 
 export const fetchBeers = async (params?: Parameters) => {
-    const data: Response[] = await axios.get('https://api.punkapi.com/v2/beers', {
-        params
-    })
+    try {
+        const data: AxiosResponse<Response[]> = await axios.get('https://api.punkapi.com/v2/beers', {
+            params
+        })
 
-    return new BeerDtoFactory(data).getBeerDto();
+        return new BeerDtoFactory(data.data).getBeerDto();
+    } catch (e) {
+        console.error(e)
+    }
+
 }
 
 export const fetchRandomBeers = async () => {
-    const data: Response[] = await axios.get('https://api.punkapi.com/v2/beers/random');
-
-    return new BeerDtoFactory(data).getBeerDto();
+    try {
+        const data: AxiosResponse<Response[]> = await axios.get('https://api.punkapi.com/v2/beers/random');
+        return new BeerDtoFactory(data.data).getBeerDto();
+    } catch (e) {
+        console.error(e)
+    }
 }
