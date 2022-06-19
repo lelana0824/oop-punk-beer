@@ -3,27 +3,41 @@
  * 2. UI를 업데이트 하는 역할 -> DIP. View는 변할 수 있음.
  */
 
-import { fetchBeers, fetchRandomBeers, Parameters } from "./gateway";
+import { BeerDto, fetchBeers, fetchRandomBeers, Parameters } from "./gateway";
 
 export interface IBeerOrder {
-    getBeers: () => void;
+    getBeers: (beers: BeerDto[]) => void;
 }
 
 class Presenter {
     private beerOrder: IBeerOrder;
 
     constructor(beerOrder: IBeerOrder) {
-        this.beerOrder = beerOrder 
+        this.beerOrder = beerOrder
     }
 
     async getBeers(params: Parameters) {
-        await fetchBeers(params)
-        this.beerOrder.getBeers();
+        try {
+            const beers = await fetchBeers(params)
+
+            if (beers) {
+                this.beerOrder.getBeers(beers)
+            }
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     async getRandomBeers() {
-        await fetchRandomBeers();
-        this.beerOrder.getBeers();
+        try {
+            const beers = await fetchRandomBeers()
+
+            if (beers) {
+                this.beerOrder.getBeers(beers)
+            }
+        } catch (e) {
+            console.error(e)
+        }
     }
 }
 
