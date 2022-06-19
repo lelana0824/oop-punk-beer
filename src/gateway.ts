@@ -62,7 +62,7 @@ interface Hop {
     attribute: string;
 }
 
-interface Parameters {
+export interface Parameters {
     abv_gt?: number;
     abv_lt?: number;
     ibu_gt?: number;
@@ -79,8 +79,60 @@ interface Parameters {
     ids?: string;
 }
 
-export const fetchBeers = async (params?: Parameters): Promise<Response[]> => {
-    return await axios.get('https://api.punkapi.com/v2/beers', {
+export interface BeerDto {
+    id: number;
+    name: string;
+    tagline: string;
+    firstBrewed: string;
+    description: string;
+    imageUrl: string;
+    abv: number;
+    ibu: number;
+    targetFg: number;
+    targetOg: number;
+    ebc: number;
+    srm: number;
+    ph: number;
+    attenuationLevel: number;
+    volume: ValueUnit
+    boilVolume: ValueUnit
+    method: Method,
+    ingredients: Ingredients,
+    foodPairing: string[],
+    brewersTips: string;
+    contributedBy: string;
+}
+
+class BeerDtoFactory {
+    private beers: BeerDto[];
+
+    constructor(beerDto: Response[]) {
+        this.beers = beerDto.map(beerItem => {
+            const { first_brewed, image_url, target_fg, target_og, attenuation_level, boil_volume, food_pairing, brewers_tips, contributed_by } = beerItem;
+            return ({
+                ...beerItem,
+                firstBrewed: first_brewed,
+                imageUrl: image_url,
+                targetFg: target_fg,
+                targetOg: target_og,
+                attenuationLevel: attenuation_level,
+                boilVolume: boil_volume,
+                foodPairing: food_pairing,
+                brewersTips: brewers_tips,
+                contributedBy: contributed_by
+            })
+        })
+    }
+
+    getBeerDto() {
+        return this.beers;
+    }
+}
+
+export const fetchBeers = async (params?: Parameters): Promise<BeerDto[]> => {
+    const data: Response[] = await axios.get('https://api.punkapi.com/v2/beers', {
         params
     })
+
+    return new BeerDtoFactory(data).getBeerDto();
 }
