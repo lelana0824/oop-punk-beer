@@ -129,10 +129,16 @@ class BeerDtoFactory {
     }
 }
 
-export const fetchBeers = async (params?: Parameters): Promise<BeerDto[]> => {
+export const fetchBeers = async (params?: Parameters) => {
     const data: Response[] = await axios.get('https://api.punkapi.com/v2/beers', {
         params
     })
+
+    return new BeerDtoFactory(data).getBeerDto();
+}
+
+export const fetchRandomBeers = async () => {
+    const data: Response[] = await axios.get('https://api.punkapi.com/v2/beers/random');
 
     return new BeerDtoFactory(data).getBeerDto();
 }

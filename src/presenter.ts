@@ -3,7 +3,7 @@
  * 2. UI를 업데이트 하는 역할 -> DIP. View는 변할 수 있음.
  */
 
-import { fetchBeers, Parameters } from "./gateway";
+import { fetchBeers, fetchRandomBeers, Parameters } from "./gateway";
 
 export interface IBeerOrder {
     getBeers: () => void;
@@ -18,6 +18,11 @@ class Presenter {
 
     async getBeers(params: Parameters) {
         await fetchBeers(params)
+        this.beerOrder.getBeers();
+    }
+
+    async getRandomBeers() {
+        await fetchRandomBeers();
         this.beerOrder.getBeers();
     }
 }
