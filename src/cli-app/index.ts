@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import readline from 'readline';
-import { BeerDto } from '../gateway';
+import { BeerDto } from '../dto';
 import Presenter, { IBeerOrder } from '../presenter';
 
 class BeerOrder implements IBeerOrder {

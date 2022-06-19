@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { BeerDto } from "./dto";
 
 interface Response {
     id: number;
@@ -24,12 +25,12 @@ interface Response {
     contributed_by: string;
 }
 
-interface ValueUnit {
+export interface ValueUnit {
     vaule: number;
     unit: string;
 }
 
-interface Method {
+export interface Method {
     mash_temp: MashTemp[];
     fermentation: Fermentation
     twist: string;
@@ -44,7 +45,7 @@ interface Fermentation {
     temp: ValueUnit;
 }
 
-interface Ingredients {
+export interface Ingredients {
     malt: Malt[];
     hops: Hop[];
     yeast: string;
@@ -77,30 +78,6 @@ export interface Parameters {
     malt?: string;
     food?: string;
     ids?: string;
-}
-
-export interface BeerDto {
-    id: number;
-    name: string;
-    tagline: string;
-    firstBrewed: string;
-    description: string;
-    imageUrl: string;
-    abv: number;
-    ibu: number;
-    targetFg: number;
-    targetOg: number;
-    ebc: number;
-    srm: number;
-    ph: number;
-    attenuationLevel: number;
-    volume: ValueUnit
-    boilVolume: ValueUnit
-    method: Method,
-    ingredients: Ingredients,
-    foodPairing: string[],
-    brewersTips: string;
-    contributedBy: string;
 }
 
 class BeerDtoFactory {

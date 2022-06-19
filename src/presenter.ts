@@ -3,7 +3,8 @@
  * 2. UI를 업데이트 하는 역할 -> DIP. View는 변할 수 있음.
  */
 
-import { BeerDto, fetchBeers, fetchRandomBeers, Parameters } from "./gateway";
+import { BeerDto } from "./dto";
+import { fetchBeers, fetchRandomBeers, Parameters } from "./gateway";
 
 export interface IBeerOrder {
     getBeers: (beers: BeerDto[]) => void;
